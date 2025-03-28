@@ -7,7 +7,15 @@
         <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
-        <!-- <h2>Product </h2> -->
+        <div class="header">
+            <h2>tsCRUD</h2>
+            <input
+                type="text"
+                id="search"
+                placeholder="Search posts..."
+                oninput="searchPosts()"
+            />
+        </div>
         <div class="input-field">
             <h2>Create Post</h2>
             <input type="hidden" id="postId" />
@@ -15,12 +23,7 @@
             <input type="text" id="body" placeholder="Description" />
             <button id="savePost">Save</button>
         </div>
-        <input
-            type="text"
-            id="search"
-            placeholder="Search posts..."
-            oninput="searchPosts()"
-        />
+
         <h3 id="post-list">Post List</h3>
         <div id="postContainer"></div>
 
