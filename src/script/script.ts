@@ -54,6 +54,5 @@ const handleScroll = () => {
 };
 
 // Event Listeners
-
 window.addEventListener("scroll", handleScroll);
 window.onload = fetchPosts;
