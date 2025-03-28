@@ -29,14 +29,31 @@ const fetchPosts = async () => {
     const data = await response.json();
 
     if (data.posts.length < LIMIT) {
-      hasMore = false; 
+      hasMore = false; // Stop fetching when no more posts
     }
 
+    displayPosts(data.posts);
     skip += LIMIT;
   } catch (error) {
     console.error("Error fetching posts:", error);
   }
 };
+
+// Display posts in UI
+const displayPosts = (posts: Post[]) => {
+  posts.forEach((post) => {
+    const postElement = document.createElement("div");
+    postElement.className = "post";
+    postElement.innerHTML = `
+            <h3>${post.title}</h3>
+            <p>${post.body}</p>
+            <button onclick="editPost(${post.id}, '${post.title}', '${post.body}')">Edit</button>
+            <button onclick="deletePost(${post.id})">Delete</button>
+        `;
+    postContainer.appendChild(postElement);
+  });
+};
+
 
 // Reset and fetch posts again (for adding or editing)
 const resetAndFetch = () => {
