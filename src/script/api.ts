@@ -10,6 +10,7 @@ export interface Post {
     body: string;
 }
 
+// Fetch posts from API
 export const fetchPosts = async (): Promise<Post[]> => {
     if (!hasMore || isFetching) return [];
     isFetching = true;
@@ -21,6 +22,7 @@ export const fetchPosts = async (): Promise<Post[]> => {
     return data.posts;
 };
 
+// Update post in API
 export const updatePostAPI = async (post: Post) => {
     return fetch(`${API_URL}/${post.id}`, {
         method: 'PUT',
@@ -29,6 +31,7 @@ export const updatePostAPI = async (post: Post) => {
     });
 };
 
+// Delete post from API
 export const deletePostAPI = async (id: number) => {
     return fetch(`${API_URL}/${id}`, { method: 'DELETE' });
 };

@@ -4,7 +4,7 @@ const postContainer = document.getElementById(
     'postContainer'
 ) as HTMLDivElement;
 
-// Display Products locally and remotelly
+// Display posts dynamically
 export const displayPosts = (posts: Post[]) => {
     postContainer.innerHTML = '';
     posts.sort((a, b) => b.id - a.id);
