@@ -7,26 +7,40 @@
         <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
-        <div class="header">
-            <h2>tsCRUD</h2>
+        <header class="header">
+            <h1 id="mainHeading">tsCRUD</h1>
+            <label for="search" class="visually-hidden">Search Posts</label>
             <input
                 type="text"
                 id="search"
                 placeholder="Search posts..."
                 oninput="searchPosts()"
+                aria-label="Search posts"
             />
-        </div>
-        <div class="input-field">
+        </header>
+
+        <section class="input-field">
             <h2>Create Post</h2>
             <input type="hidden" id="postId" />
-            <input type="text" id="title" placeholder="Title" />
-            <input type="text" id="body" placeholder="Description" />
-            <button id="savePost">Save</button>
-        </div>
+            <input
+                type="text"
+                id="title"
+                placeholder="Title"
+                aria-required="true"
+            />
+            <input
+                type="text"
+                id="body"
+                placeholder="Description"
+                aria-required="true"
+            />
+
+            <button id="savePost" aria-label="Save Post">Save</button>
+        </section>
 
         <h3 id="post-list">Post List</h3>
-        <div id="postContainer"></div>
+        <div id="postContainer" role="list"></div>
 
-        <script src="./script/script.ts" type=""></script>
+        <script src="./script/script.ts" type="module"></script>
     </body>
 </html>
