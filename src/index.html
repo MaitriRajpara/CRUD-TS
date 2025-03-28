@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD App with TypeScript</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- <h2>Product </h2> -->
+    <div class="input-field">
+      <form class="input-feild">
+        <h2>Search</h2>
+        <input
+          type="text"
+          id="search"
+          placeholder="Search posts..."
+          oninput="searchPosts()"
+        />
+
+        <h3>Create Post</h3>
+
+        <input type="hidden" id="postId" />
+        <input type="text" id="title" placeholder="Title" />
+        <input type="text" id="body" placeholder="Description" />
+        <button id="savePost">Save</button>
+      </form>
+    </div>
+    <h3 id="post-list">Post List</h3>
+    <div id="postContainer"></div>
+
+    <script src="./script/script.ts" type=""></script>
+  </body>
+</html>
