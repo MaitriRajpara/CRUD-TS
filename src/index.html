@@ -18,7 +18,6 @@
                 aria-label="Search posts"
             />
         </header>
-
         <section class="input-field">
             <h2>Create Post</h2>
             <input type="hidden" id="postId" />
@@ -27,13 +26,28 @@
                 id="title"
                 placeholder="Title"
                 aria-required="true"
+                required
+                aria-describedby="titleError"
             />
+            <span
+                id="titleError"
+                class="error-message"
+                aria-live="polite"
+            ></span>
+
             <input
                 type="text"
                 id="body"
                 placeholder="Description"
                 aria-required="true"
+                required
+                aria-describedby="bodyError"
             />
+            <span
+                id="bodyError"
+                class="error-message"
+                aria-live="polite"
+            ></span>
 
             <button id="savePost" aria-label="Save Post">Save</button>
         </section>
