@@ -10,11 +10,13 @@ import { displayPosts } from './ui.js';
 const titleInput = document.getElementById('title') as HTMLInputElement;
 const bodyInput = document.getElementById('body') as HTMLInputElement;
 const saveButton = document.getElementById('savePost') as HTMLButtonElement;
-const postContainer = document.getElementById('postContainer') as HTMLDivElement;
-const searchInput = document.getElementById('searchInput') as HTMLInputElement; // Search input field
+const postContainer = document.getElementById(
+    'postContainer'
+) as HTMLDivElement;
+const searchInput = document.getElementById('searchInput') as HTMLInputElement;
 
 let editingPostId: number | null = null;
-let allPosts: Post[] = [];  // Holds both local and fetched posts
+let allPosts: Post[] = [];
 let postsToShow: Post[] = [];
 let isFetching = false;
 let hasMore = true;
@@ -27,7 +29,6 @@ const loadPosts = async () => {
     const posts = await fetchPosts();
     if (posts.length < 30) hasMore = false;
 
-    // Append the fetched posts to allPosts (it now includes both local and fetched posts)
     allPosts = [...allPosts, ...posts];
     postsToShow = [...postsToShow, ...posts];
     storePostsLocally(allPosts);
@@ -40,16 +41,13 @@ const loadPosts = async () => {
 const validateInputs = (): boolean => {
     let isValid = true;
 
-    // Clear previous error messages
     clearErrorMessages();
 
-    // Title validation
     if (!titleInput.value.trim()) {
         showErrorMessage(titleInput, 'Title is required.');
         isValid = false;
     }
 
-    // Body validation
     if (!bodyInput.value.trim()) {
         showErrorMessage(bodyInput, 'Description is required.');
         isValid = false;
@@ -61,10 +59,9 @@ const validateInputs = (): boolean => {
 // Show error message next to the input field
 const showErrorMessage = (inputElement: HTMLInputElement, message: string) => {
     const errorElement = document.createElement('span');
-    errorElement.className = 'error-message';  // You can style this class in your CSS
+    errorElement.className = 'error-message';
     errorElement.textContent = message;
 
-    // Insert error message right after the input field
     inputElement.insertAdjacentElement('afterend', errorElement);
 };
 
@@ -76,7 +73,7 @@ const clearErrorMessages = () => {
 
 // Add or update post
 const addOrUpdatePost = async () => {
-    if (!validateInputs()) return; // If inputs are invalid, do not proceed
+    if (!validateInputs()) return;
 
     const title = titleInput.value.trim();
     const body = bodyInput.value.trim();
@@ -85,20 +82,19 @@ const addOrUpdatePost = async () => {
 
     if (editingPostId) {
         postData = { id: editingPostId, title, body };
-        updateLocalPost(postData); 
+        updateLocalPost(postData);
         await updatePostAPI(postData);
         editingPostId = null;
     } else {
         postData = { id: Date.now(), title, body };
-        posts = [postData, ...posts]; 
-        storePostsLocally(posts); 
+        posts = [postData, ...posts];
+        storePostsLocally(posts);
     }
 
-    // Always store local posts and update allPosts array
-    allPosts = getLocalPosts();  // Update allPosts to reflect any local changes
+    allPosts = getLocalPosts();
     titleInput.value = '';
     bodyInput.value = '';
-    displayPosts(allPosts);  // Display the posts from allPosts (both local and fetched)
+    displayPosts(allPosts);
 };
 
 // Event listener for Edit & Delete actions
@@ -117,10 +113,16 @@ postContainer.addEventListener('click', async (event) => {
     }
 
     if (target.classList.contains('delete-btn')) {
-        deleteLocalPost(Number(postId));
-        await deletePostAPI(Number(postId));
-        allPosts = getLocalPosts();  // Ensure allPosts is updated after deletion
-        displayPosts(allPosts);  // Display the updated list
+        const confirmDelete = window.confirm(
+            'Are you sure you want to delete this post?'
+        );
+        if (confirmDelete) {
+            deleteLocalPost(Number(postId));
+            await deletePostAPI(Number(postId));
+            allPosts = getLocalPosts(); 
+            displayPosts(allPosts); 
+            alert('Post has been successfully deleted.');
+        }
     }
 });
 
@@ -128,7 +130,6 @@ postContainer.addEventListener('click', async (event) => {
 const searchPosts = () => {
     const query = searchInput.value.toLowerCase().trim();
     if (query) {
-        // Filter through both local and fetched posts
         const filteredPosts = allPosts.filter(
             (post) =>
                 post.title.toLowerCase().includes(query) ||
@@ -136,7 +137,6 @@ const searchPosts = () => {
         );
         displayPosts(filteredPosts);
     } else {
-        // If no query, show all posts
         displayPosts(allPosts);
     }
 };
@@ -159,9 +159,9 @@ window.addEventListener('scroll', handleScroll);
 
 // Initial load of posts
 window.onload = () => {
-    const localPosts = getLocalPosts(); 
+    const localPosts = getLocalPosts();
     if (localPosts.length > 0) {
-        allPosts = localPosts;  // Initialize allPosts with local posts
+        allPosts = localPosts;
         displayPosts(localPosts);
     } else {
         loadPosts();
